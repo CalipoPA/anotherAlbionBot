@@ -1,3 +1,6 @@
 discord.log
+__pycache__
 /cogs/__pycache__
 /bot
+.vscode
+bot.db

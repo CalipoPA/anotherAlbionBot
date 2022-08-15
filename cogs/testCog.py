@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from termcolor import colored
 
 
 class TestCog(commands.Cog):
@@ -10,7 +11,7 @@ class TestCog(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Log the bot is logged and ready."""
-        print(f'Bot logged on as {self.client.user}')
+        print(colored(f'Bot logged on as {self.client.user}', 'green'))
 
     @commands.command()
     async def ping(self, ctx):

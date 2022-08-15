@@ -1,17 +1,20 @@
 # anotherDiscordBot
 # author: @CalipoPA
 
+from dataclasses import fields
 import discord
 from discord.ext import commands
+from termcolor import colored
+from db import DB
 import logging
 import os
 
 # set up environment variables
 TOKEN = os.environ.get('TOKEN')
 if TOKEN is None:
-    print('TOKEN not found')
+    print(colored('TOKEN not found in environment variables', 'red'))
 else:
-    print('TOKEN found')
+    print(colored(f'TOKEN found in environment variables: {TOKEN}', 'green'))
 
 # set up intents
 intents = discord.Intents.default()
@@ -39,7 +42,16 @@ bot = commands.Bot(command_prefix=prefix, intents=intents)
 for file in os.listdir('./cogs'):
     if file.endswith('.py'):
         bot.load_extension(f'cogs.{file[:-3]}')
-        print(f'Cog {file[:-3]} loaded')
+        print(colored(f'{file[:-3]} loaded', 'green'))
+
+# bot event for start db on new guild
+@bot.event
+async def on_guild_join(guild):
+    print(guild.id, guild.name)
+    # delete spacing string
+    guild_name = guild.name.replace(' ', '')
+    db = DB("bot.db")
+    db.create_table(guild_name)
 
 # run bot
 bot.run(TOKEN)
