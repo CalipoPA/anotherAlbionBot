@@ -47,11 +47,15 @@ for file in os.listdir('./cogs'):
 # bot event for start db on new guild
 @bot.event
 async def on_guild_join(guild):
-    print(guild.id, guild.name)
+
     # delete spacing string
     guild_name = guild.name.replace(' ', '')
     db = DB("bot.db")
     db.create_table(guild_name)
+
+    guild = bot.get_guild(guild.id)
+    for member in guild.members:
+        db.insert_data(guild_name, member.id, 'False')
 
 # run bot
 bot.run(TOKEN)
