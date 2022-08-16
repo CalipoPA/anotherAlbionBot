@@ -49,13 +49,16 @@ for file in os.listdir('./cogs'):
 async def on_guild_join(guild):
 
     # delete spacing string
-    guild_name = guild.name.replace(' ', '')
+    guildName = guild.name.replace(' ', '')
     db = DB("bot.db")
-    db.create_table(guild_name)
+    db.create_table(guildName)
 
     guild = bot.get_guild(guild.id)
+    premiumStatus = False
+    economyStatus = int(100)
     for member in guild.members:
-        db.insert_data(guild_name, member.id, 'False')
+        db.insert_data(guildName, member.id, premiumStatus, economyStatus)
+
 
 # run bot
 bot.run(TOKEN)

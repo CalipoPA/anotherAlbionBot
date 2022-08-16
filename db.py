@@ -7,10 +7,10 @@ class DB():
         self.c = self.conn.cursor()
 
     def create_table(self, guild_name):
-        self.c.execute("CREATE TABLE IF NOT EXISTS {} (userId VARCHAR(255), isPremium VARCHAR(255) )".format(guild_name))
+        self.c.execute("CREATE TABLE IF NOT EXISTS {} (userId VARCHAR(255), premiumStatus VARCHAR(255), economyStatus INT)".format(guild_name))
 
-    def insert_data(self, guild_name, userId, isPremium):
-        self.c.execute("INSERT INTO {} VALUES ({}, {})".format(guild_name, userId, isPremium))
+    def insert_data(self, guild_name, userId, premiumStatus, economyStatus):
+        self.c.execute("INSERT INTO {} VALUES ({}, {}, {})".format(guild_name, userId, premiumStatus, economyStatus))
         self.conn.commit()
 
     def select_data(self, guild_id, fields, condition):
