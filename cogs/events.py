@@ -16,7 +16,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         """Listening for messages"""
-        print(message)
+        pass
 
 def setup(bot):
     bot.add_cog(Events(bot))
