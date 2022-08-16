@@ -14,7 +14,7 @@ TOKEN = os.environ.get('TOKEN')
 if TOKEN is None:
     print(colored('TOKEN not found in environment variables', 'red'))
 else:
-    print(colored(f'TOKEN found in environment variables: {TOKEN}', 'green'))
+    print(colored('Loading Cogs...', 'yellow'))
 
 # set up intents
 intents = discord.Intents.default()
@@ -42,7 +42,7 @@ bot = commands.Bot(command_prefix=prefix, intents=intents)
 for file in os.listdir('./cogs'):
     if file.endswith('.py'):
         bot.load_extension(f'cogs.{file[:-3]}')
-        print(colored(f'{file[:-3]} loaded', 'green'))
+        print(colored(f'{file[:-3]} Loaded!', 'green'))
 
 # bot event for start db on new guild
 @bot.event
