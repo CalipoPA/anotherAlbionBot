@@ -1,15 +1,15 @@
 from discord.ext import commands
 
 class Tests(commands.Cog):
-    def __init__(self, client):
+    def __init__(self, bot):
         """Initialize the TestCog class."""
-        self.client = client
+        self.bot = bot
 
     @commands.command()
     async def ping(self, ctx):
         """Test command."""
         await ctx.send('pong')
 
-async def setup(client):
+async def setup(bot):
     """Load the TestCog class."""
-    await client.add_cog(Tests(client))
+    await bot.add_cog(Tests(bot))

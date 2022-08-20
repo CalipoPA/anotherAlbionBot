@@ -6,23 +6,23 @@ class DB():
         self.conn = sqlite3.connect(botDb)
         self.c = self.conn.cursor()
 
-    def create_table(self, guild_name):
-        self.c.execute("CREATE TABLE IF NOT EXISTS {} (userId VARCHAR(255), premiumStatus VARCHAR(255), economyStatus INT)".format(guild_name))
+    def create_table(self, guildName):
+        self.c.execute("CREATE TABLE IF NOT EXISTS {} (userId VARCHAR(255), premiumStatus VARCHAR(255), economyStatus INT)".format(guildName))
 
-    def insert_data(self, guild_name, userId, premiumStatus, economyStatus):
-        self.c.execute("INSERT INTO {} VALUES ({}, {}, {})".format(guild_name, userId, premiumStatus, economyStatus))
+    def insert_data(self, guildName, userId, premiumStatus, economyStatus):
+        self.c.execute("INSERT INTO {} VALUES ({}, {}, {})".format(guildName, userId, premiumStatus, economyStatus))
         self.conn.commit()
 
-    def select_data(self, guild_id, fields, condition):
-        self.c.execute("SELECT {} FROM {} WHERE {}".format(fields, guild_id, condition))
+    def select_data(self, guildId, fields, condition):
+        self.c.execute("SELECT {} FROM {} WHERE {}".format(fields, guildId, condition))
         return self.c.fetchall()
 
-    def update_data(self, guild_name, userId):
-        self.c.execute("UPDATE {}".format(guild_name, userId))
+    def update_data(self, guildName, userId):
+        self.c.execute("UPDATE {}".format(guildName, userId))
         self.conn.commit()
 
-    def delete_data(self, guild_id, condition):
-        self.c.execute("DELETE FROM {} WHERE {}".format(guild_id, condition))
+    def delete_data(self, guildId, condition):
+        self.c.execute("DELETE FROM {} WHERE {}".format(guildId, condition))
         self.conn.commit()
 
     def close(self):

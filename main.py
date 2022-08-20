@@ -5,7 +5,6 @@ import discord
 from discord.ext import commands
 from termcolor import colored
 import os
-from db import DB
 import logging
 
 # get environment variables
@@ -19,7 +18,7 @@ class anotherBot(commands.Bot):
                 await self.load_extension(f'cogs.{file[:-3]}')
 
 def setup():
-    print(colored('[+]', 'green'), colored('Starting bot...', 'white'))
+    print(colored('[+]', 'yellow'), colored('Starting bot...', 'white'))
 
     logger = logging.getLogger('discord')
     logger.setLevel(logging.DEBUG)
@@ -29,6 +28,7 @@ def setup():
 
     intents = discord.Intents.all()
     bot = anotherBot(intents=intents, command_prefix='!')
+    print(colored('[+]', 'green'), colored('Bot is ready!', 'white'))
     bot.run(DISCORD_TOKEN)
 
 setup()
