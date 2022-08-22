@@ -13,17 +13,13 @@ class DB():
         self.c.execute("INSERT INTO {} VALUES ({}, {}, {})".format(guildName, userId, premiumStatus, economyStatus))
         self.conn.commit()
 
-    def select_data(self, guildId, fields, condition):
-        self.c.execute("SELECT {} FROM {} WHERE {}".format(fields, guildId, condition))
-        return self.c.fetchall()
+    def get_premium_status(self, guildId, userId):
+        self.c.execute("SELECT premiumStatus FROM {} WHERE userId = {}".format(guildId, userId))
+        return self.c.fetchone()[0]
 
-    def update_data(self, guildName, userId):
-        self.c.execute("UPDATE {}".format(guildName, userId))
-        self.conn.commit()
-
-    def delete_data(self, guildId, condition):
-        self.c.execute("DELETE FROM {} WHERE {}".format(guildId, condition))
-        self.conn.commit()
+    def get_economy_status(self, guildId, userId):
+        self.c.execute("SELECT economyStatus FROM {} WHERE userId = {}".format(guildId, userId))
+        return self.c.fetchone()[0]
 
     def close(self):
         self.conn.close()
