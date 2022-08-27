@@ -4,7 +4,7 @@ import aiosqlite
 class Events(commands.Cog):
     def __init__(self, Bot) -> None:
         """Initialize the Events class."""
-        self.get_guild = Bot.get_guild
+        self.bot = Bot
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
