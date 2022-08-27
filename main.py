@@ -14,11 +14,8 @@ DISCORD_TOKEN = os.environ.get('TOKEN')
 class anotherBot(commands.Bot):
     async def setup_hook(self) -> None:
 
-        # aiosqlite connection
         self.db = await aiosqlite.connect('anotherDiscordBot.db')
-        self.db.row_factory = aiosqlite.Row
 
-        # create tables if they don't exist
         await self.db.execute('''
         CREATE TABLE IF NOT EXISTS premium 
         (userId VARCHAR(255), premiumStatus VARCHAR(255))

@@ -1,5 +1,5 @@
 from discord.ext import commands
-from db import DB
+import aiosqlite
 
 class Tests(commands.Cog):
     def __init__(self, bot):
@@ -15,24 +15,26 @@ class Tests(commands.Cog):
     async def premiumStatus(self, ctx):
         """Test premiumStatus command."""
         userId = ctx.author.id
-        guildId = ctx.guild.name.replace(' ', '')
-        db = DB("anotherDiscordBot.db")
-        premiumStatus = db.get_premium_status(guildId, userId)
+        db = await aiosqlite.connect('anotherDiscordBot.db')
+        premiumStatus = await db.execute("SELECT premiumStatus FROM premium WHERE userId = {}".format(userId))
 
         if premiumStatus == 1:
             await ctx.send('You are premium')
         else:
             await ctx.send('You are not premium')
+        await db.close()
 
     @commands.command()
     async def economyStatus(self, ctx):
         """Test economyStatus command."""
         userId = ctx.author.id
-        guildId = ctx.guild.name.replace(' ', '')
-        db = DB("anotherDiscordBot.db")
-        economyStatus = db.get_economy_status(guildId, userId)
+        db = await aiosqlite.connect('anotherDiscordBot.db')
+        cursor = await db.execute("SELECT economyStatus FROM economy WHERE userId = {}".format(userId))
+        economyStatus = await cursor.fetchone()
+        economyStatus = economyStatus[0]
         economyStatuString = str(economyStatus)
         await ctx.send(economyStatuString + '$')
+        await db.close()
 
 async def setup(bot):
     """Load the TestCog class."""
