@@ -7,6 +7,7 @@ from termcolor import colored
 import os
 import logging
 import aiosqlite
+import asyncio
 
 # get environment variables
 DISCORD_TOKEN = os.environ.get('TOKEN')
@@ -45,4 +46,4 @@ def setup():
     print(colored('[+]', 'green'), colored('Bot is ready!', 'white'))
     bot.run(DISCORD_TOKEN)
 
-setup()
+asyncio.run(setup())
