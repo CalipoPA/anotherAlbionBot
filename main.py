@@ -6,12 +6,29 @@ from discord.ext import commands
 from termcolor import colored
 import os
 import logging
+import aiosqlite
 
 # get environment variables
 DISCORD_TOKEN = os.environ.get('TOKEN')
 
 class anotherBot(commands.Bot):
     async def setup_hook(self) -> None:
+
+        # aiosqlite connection
+        self.db = await aiosqlite.connect('anotherDiscordBot.db')
+        self.db.row_factory = aiosqlite.Row
+
+        # create tables if they don't exist
+        await self.db.execute('''
+        CREATE TABLE IF NOT EXISTS premium 
+        (userId VARCHAR(255), premiumStatus VARCHAR(255))
+        ''')
+        await self.db.execute('''
+        CREATE TABLE IF NOT EXISTS economy 
+        (userId VARCHAR(255), economyStatus INT)
+        ''')
+        await self.db.commit()
+        await self.db.close()
 
         for file in os.listdir('./cogs'):
             if file.endswith('.py'):
