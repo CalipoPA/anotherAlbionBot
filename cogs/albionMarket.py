@@ -8,14 +8,12 @@ import difflib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.gridspec as gridspec
-import configparser
-import os
 
 
-class Precio(commands.Cog):
+class MarketPrice(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
         # API URLs
         self.iconURL = "https://render.albiononline.com/v1/item/"  # + "T4_HIDE_LEVEL1@1.png?count=1&quality=1"
@@ -49,10 +47,9 @@ class Precio(commands.Cog):
         - Outputs as Discord Embed with thumbnail.
         - Plots 7 days historical precios.
         """
-        await ctx.send("ola")
         # Get command (precio or mercado)
         command = ctx.message.content.split()
-    
+
         # difflib for input buscar
         itemNames, itemIDs = self.item_match(item)
 
@@ -63,7 +60,7 @@ class Precio(commands.Cog):
 
         # Create Discord embed
         em = discord.Embed(
-            title=f"Current precios for:\n**{itemNames[0]} ({itemIDs[0]})**"
+            title=f"Precios para:\n**{itemNames[0]} ({itemIDs[0]})**"
         )
 
         # Extracting locations' timestamps and minimum sell order precios
@@ -125,7 +122,7 @@ class Precio(commands.Cog):
                     if indivData["quality"] == 0 or indivData["quality"] == 1:
                         locationString = indivData["city"]
                     elif indivData["quality"] == 2:
-                        locationString = indivData["city"] + " (Buneno)"
+                        locationString = indivData["city"] + " (Bueno)"
                     elif indivData["quality"] == 3:
                         locationString = indivData["city"] + " (Notable)"
                     elif indivData["quality"] == 4:
@@ -205,16 +202,10 @@ class Precio(commands.Cog):
 
             em.set_thumbnail(url=iconFullURL)
 
-            # \u274c is a red X
-            em.set_footer(text="Recciona con \u274c para eliminar este mensaje.")
-
             try:
                 # Skip plotting if command is quick
                 if any(["mercado" in c.lower() for c in command[:2]]):
                     raise Exception
-
-                # Trigger typing again so that user know its still loading
-                await ctx.channel.trigger_typing()
 
                 # Grab past 7 days historical precios and plot them
                 self.grabHistory(itemIDs[0], itemNames[0])
@@ -227,14 +218,6 @@ class Precio(commands.Cog):
             # Just send embed without plot if command is quick
             except:
                 msg = await ctx.send(embed=em)
-
-            # Add delete reaction button
-            await msg.add_reaction("\u274c")
-
-            if self.debug:
-                await self.debugChannel.send(
-                    f"{ctx.message.content} | Matched -> {itemNames[0]} ({itemIDs[0]})"
-                )
 
     # Error message of precios
     @precios.error
@@ -516,5 +499,5 @@ class Precio(commands.Cog):
         return
 
 
-async def setup(client):
-    await client.add_cog(Precio(client))
+async def setup(bot):
+    await bot.add_cog(MarketPrice(bot))
