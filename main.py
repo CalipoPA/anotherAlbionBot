@@ -1,4 +1,4 @@
-# anotherDiscordBot
+# anotherAlbionBot
 # author: @CalipoPA
 
 import discord
