@@ -1,6 +1,7 @@
 *.log
 *.vscode
 *.db
+*.png
 __pycache__
 /bot
 

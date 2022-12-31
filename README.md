@@ -1,7 +1,7 @@
-# anotherDiscordBot
+# anotherAlbionBot
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/discord.py?style=flat-square)
 
-anotherDiscordBot is a discord bot written in Python that seeks to unify many functions in 1 single bot.
+anotherAlbionBot is a discord bot written in Python for Albion Online.
 
 ## Usage
 
