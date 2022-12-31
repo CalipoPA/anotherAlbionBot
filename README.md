@@ -9,6 +9,10 @@ Fork the repository and clone it on your local machine.
 
 ```python
 set TOKEN=[your_bot_token]
+set HOST_DB=[your_database_host]
+set DATABASE=[your_database]
+set USER_DB=[your_user]
+set PASSWORD=[your_password]
 
 py main.py
 ```
