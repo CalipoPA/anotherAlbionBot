@@ -6,26 +6,37 @@ from discord.ext import commands
 from termcolor import colored
 import os
 import logging
-import aiosqlite
+import asyncpg
 import asyncio
 
 DISCORD_TOKEN = os.environ.get('TOKEN')
 
-class anotherBot(commands.Bot):
-    async def setup_hook(self) -> None:
+async def setupDatabase():
+    try:
+        conn = await asyncpg.connect(
+            host = os.environ.get('HOST_DB'),
+            database = os.environ.get('DATABASE'),
+            user = os.environ.get('USER_DB'),
+            password = os.environ.get('PASSWORD_DB')
+        )
+    except:
+        print("Error to connect database")
 
-        self.db = await aiosqlite.connect('anotherDiscordBot.db')
-
-        await self.db.execute('''
+    await conn.execute('''
         CREATE TABLE IF NOT EXISTS premium 
         (userId VARCHAR(255), premiumStatus VARCHAR(255))
         ''')
-        await self.db.execute('''
+    await conn.execute('''
         CREATE TABLE IF NOT EXISTS economy 
         (userId VARCHAR(255), economyStatus INT)
         ''')
-        await self.db.commit()
-        await self.db.close()
+    await conn.close()
+    print(colored('[+]', 'green'), colored('Bot is ready!', 'white'))
+
+class anotherBot(commands.Bot):
+    async def setup_hook(self) -> None:
+        
+        await setupDatabase()
 
         for file in os.listdir('./cogs'):
             if file.endswith('.py'):
@@ -42,7 +53,6 @@ def setup():
 
     intents = discord.Intents.all()
     bot = anotherBot(intents=intents, command_prefix='!')
-    print(colored('[+]', 'green'), colored('Bot is ready!', 'white'))
     bot.run(DISCORD_TOKEN)
 
 asyncio.run(setup())
