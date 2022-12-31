@@ -12,7 +12,7 @@ set TOKEN=[your_bot_token]
 set HOST_DB=[your_database_host]
 set DATABASE=[your_database]
 set USER_DB=[your_user]
-set PASSWORD=[your_password]
+set PASSWORD_DB=[your_password]
 
 py main.py
 ```
