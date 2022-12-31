@@ -9,7 +9,6 @@ import logging
 import aiosqlite
 import asyncio
 
-# get environment variables
 DISCORD_TOKEN = os.environ.get('TOKEN')
 
 class anotherBot(commands.Bot):
